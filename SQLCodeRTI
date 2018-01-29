@@ -1,0 +1,25 @@
+--Creating a flattened table for the Census data
+CREATE TABLE flattable AS
+--selecting all necessary columns from relevant data tables and renaming columns as needed
+SELECT records.id, records.age, workclasses.name AS 'workclass', education_levels.name AS 'education_level', records.education_num, marital_statuses.name AS 'marital_status', occupations.name AS 'occupation', races.name AS 'race', relationships.name AS 'relationship', sexes.name AS 'sex', records.capital_gain, records.capital_loss, records.hours_week, countries.name AS 'country', records.over_50k
+FROM records
+--completing a series of left joins to merge the tables with the 'Records' table
+LEFT JOIN workclasses ON records.workclass_id = workclasses.id
+LEFT JOIN education_levels ON records.education_level_id = education_levels.id
+LEFT JOIN marital_statuses ON records.marital_status_id = marital_statuses.id
+LEFT JOIN occupations ON records.occupation_id = occupations.id
+LEFT JOIN races ON records.race_id = races.id
+LEFT JOIN relationships ON records.relationship_id = relationships.id
+LEFT JOIN sexes ON records.sex_id = sexes.id
+LEFT JOIN countries ON records.country_id = countries.id
+--ordering by Record ID
+ORDER BY records.id;   
+
+--Counting the number of rows in the new table to make sure no records were lost
+--expect 48842 records
+SELECT COUNT(*)
+FROM flattable;
+--this is 48842, as expected
+
+--Using SQLite Studio for this Analysis
+--Used Export function for SQLite Studio to Export CSV
