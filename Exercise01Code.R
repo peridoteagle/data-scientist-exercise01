@@ -444,7 +444,7 @@ summary(fit7)
 #Tried a fix to penalize
 #No change
 fit7br <- brglm(over_50k ~ age+relevel(sex,"Female")+relevel(education_level,"HS-grad")+relevel(marital_status,"Married-civ-spouse")+relevel(race,"White")+relevel(cgaingroup,"NoGain")+relevel(clossgroup,"NoLoss")+hours_week,family = binomial(link = "logit"),data=dataTraining)
-
+#Keeping model as fit7
 
 
 #Fifth question: how does this model compare to a computer generated model?
@@ -508,11 +508,10 @@ brier.max <- (mean(fit7$y)*(1-mean(fit7$y))^2)+((1-mean(fit7$y))*mean(fit7$y)^2)
 brier.scaled <- 1 - (brier/brier.max)
 
 # boxplot of predicted probabilities by outcome
-boxplot(plogis(fit$linear)~fit$y, 
+boxplot(plogis(fit7$linear)~fit7$y, 
         xlab = "outcome", ylab = "predicted probability")
 # discrimination slope = mean(p1) - mean(p0)
-mean(plogis(fit$linear[fit$y==1]))-mean(plogis(fit$linear[fit$y==0]))
+mean(plogis(fit$linear[fit7$y==1]))-mean(plogis(fit$linear[fit7$y==0]))
 
 
-fit7br <- brglm(over_50k ~ age+relevel(sex,"Female")+relevel(education_level,"HS-grad")+relevel(marital_status,"Married-civ-spouse")+relevel(race,"White")+relevel(cgaingroup,"NoGain")+relevel(clossgroup,"NoLoss")+hours_week,family = binomial(link = "logit"),data=dataTraining)
 
